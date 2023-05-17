@@ -6,6 +6,9 @@ export default defineNuxtConfig({
             apiUrl: process.env.API_URL
         }
     },
+    app: {
+        baseURL: process.env.BASE_URL ?? '/',
+    },
     modules: [
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
