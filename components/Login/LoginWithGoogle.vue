@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import process from 'process';
+
 const loading = ref(false);
 const supabase = useSupabaseAuthClient();
 
