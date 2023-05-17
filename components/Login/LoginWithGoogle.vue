@@ -5,6 +5,9 @@ const supabase = useSupabaseAuthClient();
 async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+        options: {
+            redirectTo: process.env.OAUTH_REDIRECT_URL ?? '/'
+        }
     });
 }
 
