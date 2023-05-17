@@ -3,7 +3,8 @@ export default defineNuxtConfig({
     css: ['~/assets/styles/main.scss'],
     runtimeConfig: {
         public: {
-            apiUrl: process.env.API_URL
+            apiUrl: process.env.API_URL,
+            OauthRedirectUrl: process.env.OAUTH_REDIRECT_URL ?? '/',
         }
     },
     app: {

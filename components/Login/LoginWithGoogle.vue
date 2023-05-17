@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import process from 'process';
 
+const runtimeConfig = useRuntimeConfig()
 const loading = ref(false);
 const supabase = useSupabaseAuthClient();
 
@@ -8,7 +8,7 @@ async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: process.env.OAUTH_REDIRECT_URL ?? '/'
+            redirectTo: runtimeConfig.public.OauthRedirectUrl
         }
     });
 }
