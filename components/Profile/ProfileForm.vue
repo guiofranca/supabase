@@ -2,10 +2,10 @@
 import { z, ZodError } from 'zod';
 import Input from '../Form/Input.vue';
 import { useNotification } from '~/stores/NotificationStore';
-import { Database } from '~/libs/types/Supabase.types';
+import { useUser } from '~/stores/UserStore';
 
-const supabase = useSupabaseClient<Database>();
-const user = useSupabaseUser().value!;
+const supabase = useSupabaseClient();
+const user = useUser();
 const notificationStore = useNotification();
 
 interface Form {
@@ -18,7 +18,7 @@ interface FormErrors {
     [key: symbol]: string[] | undefined
 }
 
-const loading = ref(true);
+const loading = ref(false);
 let formValues = ref<Form>({ full_name: '' });
 let formErrors = ref<FormErrors>({ full_name: [] as string[] });
 
@@ -26,24 +26,17 @@ const validator = z.object({
     full_name: z.string().min(3).max(255)
 });
 
-const { data: profile } = await supabase
-    .from('profiles')
-    .select(`full_name`)
-    .eq('id', user.id)
-    .single();
-
-formValues.value.full_name = profile?.full_name;
-
-loading.value = false;
+formValues.value.full_name = user.profile?.full_name;
 
 async function submit() {
     try {
         formErrors.value.full_name = [];
         loading.value = true;
         let validated = validator.parse(formValues.value);
-        let { error } = await supabase.from('profiles').update(validated).eq('id', user.id);
+        let { error } = await supabase.from('profiles').update(validated).eq('id', user.profile?.id);
         if(error == null) notificationStore.success('Nome atualizado.');
-        else notificationStore.error('Houve um erro.')
+        else notificationStore.error('Houve um erro.');
+        user.setFullName(validated.full_name);
     } catch (error) {
         if (error instanceof ZodError) {
             notificationStore.error('Erro de validação.')

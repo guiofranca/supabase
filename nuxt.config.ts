@@ -5,6 +5,8 @@ export default defineNuxtConfig({
         public: {
             apiUrl: process.env.API_URL,
             OauthRedirectUrl: process.env.OAUTH_REDIRECT_URL ?? '/',
+            SupabaseUrl: process.env.SUPABASE_URL,
+            SupabaseAnonKey: process.env.SUPABASE_KEY,
         }
     },
     app: {
@@ -14,13 +16,12 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@pinia-plugin-persistedstate/nuxt',
         '@nuxtjs/tailwindcss',
-        '@nuxtjs/supabase',
     ],
     piniaPersistedstate: {
         cookieOptions: {
             sameSite: 'strict',
             secure: true,
         },
-        storage: 'cookies',
+        storage: 'localStorage',
     },
 })

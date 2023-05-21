@@ -1,18 +1,18 @@
+import { useUser } from "~/stores/UserStore";
+
 const anonymousRoutes = [
     'login',
     'index'
 ];
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    const user = useSupabaseUser();
-    const isLoggedIn = user.value != null;
-    const isNotLoggedIn = !isLoggedIn;
+    const user = useUser();
     
     if (to.name == undefined)
         return abortNavigation();
     if (isAnAnonymousRoute(to.name!.toString()))
         return;
-    if (isNotLoggedIn)
+    if (user.isNotLoggedIn)
         return navigateTo('login');
 })
 

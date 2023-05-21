@@ -1,7 +1,4 @@
-import { defineStore } from "pinia"
-import { Database } from '~/libs/types/Supabase.types';
-
-const supabase = useSupabaseClient<Database>();
+import { defineStore } from "pinia";
 
 interface Grandeza {
     id: number,
@@ -24,15 +21,18 @@ export const useMedidor = defineStore('medidor', {
 
     actions: {
         async refreshAll() {
+            const supabase = useSupabaseClient();
             let medidores = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)');
             this.medidores = medidores.data!;
         },
         async refreshSingle(id: number) {
+            const supabase = useSupabaseClient();
             let medidor = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').eq('id', id).single();
             this.medidores = this.medidores.filter((m) => m.id != medidor.data?.id);
             this.medidores.push(medidor.data!);
         },
         async add(medidor: Medidor) {
+            const supabase = useSupabaseClient();
             const { data } = await supabase.from('medidores').insert(medidor).select('id, nome, descricao, grandezas(id, nome, unidade)').single();
             this.medidores.push(data!)
         }

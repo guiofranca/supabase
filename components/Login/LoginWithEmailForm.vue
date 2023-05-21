@@ -3,7 +3,7 @@ import { z, ZodError } from 'zod';
 import { useNotification } from '~/stores/NotificationStore';
 import InputGroup from '../Form/InputGroup.vue';
 
-const supabase = useSupabaseAuthClient();
+const supabase = useSupabaseClient();
 const notificationStore = useNotification();
 
 interface Form {

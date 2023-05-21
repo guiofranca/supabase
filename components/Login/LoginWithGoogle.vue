@@ -2,7 +2,7 @@
 
 const runtimeConfig = useRuntimeConfig()
 const loading = ref(false);
-const supabase = useSupabaseAuthClient();
+const supabase = useSupabaseClient();
 
 async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({

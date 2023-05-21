@@ -16,8 +16,7 @@ function blur() {
 }
 
 supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event == 'SIGNED_OUT') userStore.signOut();
-    if (event == 'SIGNED_IN' || event == 'INITIAL_SESSION') await userStore.signIn(session?.user);
+    userStore.setSession(session);
 });
 
 </script>
@@ -54,7 +53,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
             <DarkToggle />
             <div class="dropdown dropdown-end" v-if="userStore.authenticated">
                 <label tabindex="0" class="btn btn-ghost btn-circle">
-                    <div class="avatar" v-if="userStore.has_avatar">
+                    <div class="avatar" v-if="userStore.profile?.has_avatar">
                         <div class="w-10 rounded-full">
                             <img :src="userStore.avatar_url" />
                         </div>
@@ -68,13 +67,13 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                 <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52">
                     <li>
                         <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('profile') }" aria-current="page" to="/profile"
-                            @click="blur">Profile</NuxtLink>
+                            @click="blur">Perfil</NuxtLink>
                     </li>
                     <li>
-                        <div class="nav-link" to="/login" @click="signOut">Logout</div>
+                        <div class="nav-link" to="/login" @click="signOut">Sair</div>
                     </li>
                 </ul>
             </div>
-            <NuxtLink v-else class="btn rounded-full" to="/login">Login</NuxtLink>
+            <NuxtLink v-else class="btn rounded-full" to="/login">Entrar</NuxtLink>
         </div>
 </div></template>
