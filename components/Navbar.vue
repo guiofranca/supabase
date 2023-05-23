@@ -50,17 +50,20 @@ supabase.auth.onAuthStateChange(async (event, session) => {
             <NuxtLink class="btn btn-ghost normal-case text-xl" to="/">Supabase</NuxtLink>
         </div>
         <div class="navbar-end">
+            <a href="https://github.com/guiofranca/supabase">
+                <IconGithub class="btn btn-ghost btn-circle w-8 h-8" />
+            </a>
             <DarkToggle />
             <div class="dropdown dropdown-end" v-if="userStore.authenticated">
-                <label tabindex="0" class="btn btn-ghost btn-circle">
+                <label tabindex="0" class="btn btn-ghost btn-circle fill-current">
                     <div class="avatar" v-if="userStore.profile?.has_avatar">
                         <div class="w-10 rounded-full">
                             <img :src="userStore.avatar_url" />
                         </div>
                     </div>
                     <div class="avatar placeholder" v-else>
-                        <div class="bg-neutral-focus text-neutral-content rounded-full w-10">
-                            <span class="text-xl">{{ userStore.first_letter }}</span>
+                        <div class="bg-base-content text-base-300 rounded-full w-10">
+                            <span class="text-lg">{{ userStore.first_letter }}</span>
                         </div>
                     </div>
                 </label>
