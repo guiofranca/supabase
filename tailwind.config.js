@@ -5,7 +5,7 @@ module.exports = {
         require("tailwindcss-animate"),
     ],
     daisyui: {
-        themes: ["retro", "coffee"],
+        themes: ["light", "dark"],
     },
     safelist: [
         'active',

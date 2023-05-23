@@ -2,12 +2,16 @@
 import { z, ZodError } from 'zod';
 import Input from '../Form/Input.vue';
 import { useNotification } from '~/stores/NotificationStore';
-import { useMedidor } from '~/stores/MedidorStore';
+import { Medidor, useMedidor } from '~/stores/MedidorStore';
+
+const props = defineProps<{
+    medidor: Medidor
+}>();
 
 const notificationStore = useNotification();
 const medidorStore = useMedidor();
 const loading = ref(true);
-const medidorInicial = { nome: '', descricao: '' };
+const medidorInicial = { nome: props.medidor.nome, descricao: props.medidor.descricao };
 const erroInicial = { nome: [] as string[], descricao: [] as string[] };
 let formValues = ref<Form>(medidorInicial);
 let formErrors = ref<FormErrors>(erroInicial);
@@ -34,7 +38,7 @@ async function submit() {
         formErrors.value = erroInicial;
         loading.value = true;
         let validated = validator.parse(formValues.value);
-        await medidorStore.add(validated);
+        await medidorStore.edit(validated, props.medidor);
         navigateTo('/medidores');
     } catch (error) {
         if (error instanceof ZodError) {
@@ -54,7 +58,7 @@ async function submit() {
         <Input label="Nome" type="text" v-model="formValues.nome" :errors="formErrors.nome" />
         <Input label="Descrição" type="text" v-model="formValues.descricao" :errors="formErrors.descricao" />
         <button type="submit" class="btn btn-block" :class="{loading: loading}" :disabled="loading">
-            Criar
+            Salvar
         </button>
     </form>
 </template>

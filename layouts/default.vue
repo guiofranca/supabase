@@ -2,7 +2,7 @@
 import { useTheme } from '~/stores/ThemeStore';
 
 const themeStore = useTheme();
-const theme = () => themeStore.dark ? 'coffee' : 'retro';
+const theme = () => themeStore.dark ? 'light' : 'dark';
 const route = useRoute();
 </script>
 <template>
