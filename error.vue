@@ -1,31 +1,41 @@
 <script setup lang="ts">
+import { useTheme } from "./stores/ThemeStore";
 
 interface MeuErro {
-    statusCode: number,
-    message: string
+    statusCode: number;
+    message: string;
 }
 
 defineProps<{
-    error: MeuErro
+    error: MeuErro;
 }>();
 
-const router = useRouter();
+definePageMeta({
+    layout: "error-layout"
+})
 
-clearError();
+const layout = "error-layout";
+
+const themeStore = useTheme();
 
 const handleError = () => {
-    router.go(-1);
-}
+    clearError({ redirect: "/" });
+};
 </script>
 <template>
-    <div class="hero bg-base-300 py-10 mt-5 rounded-2xl shadow-2xl max-w-5xl m-auto">
-        <div class="hero-content text-center">
-            <div class="">
-                <h1 class="text-5xl font-bold">{{ error.statusCode }}</h1>
-                <p class="py-6">{{ error.message }}</p>
-                <button class="btn btn-secondary" @click="handleError">Voltar</button>
+    <NuxtLayout :name="layout">
+        <div
+            class="hero bg-base-300 py-10 mt-5 rounded-2xl shadow-2xl"
+        >
+            <div class="hero-content text-center">
+                <div class="">
+                    <h1 class="text-5xl font-bold">{{ error.statusCode }}</h1>
+                    <p class="py-6">{{ error.message }}</p>
+                    <button class="btn btn-secondary" @click="handleError">
+                        Voltar
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </NuxtLayout>
 </template>
-  
