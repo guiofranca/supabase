@@ -9,7 +9,6 @@
                 </div>
                 <div class="flex gap-2">
                     <LoginWithGoogle />
-                    <LoginWithEmailForm />
                 </div>
             </div>
         </div>

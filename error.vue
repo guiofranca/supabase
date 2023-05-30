@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Layout from '~/layouts/default.vue'
 
 interface MeuErro {
     statusCode: number,
@@ -12,8 +11,9 @@ defineProps<{
 
 const router = useRouter();
 
+clearError();
+
 const handleError = () => {
-    clearError();
     router.go(-1);
 }
 </script>

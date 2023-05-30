@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Notification, useNotification } from '~/stores/NotificationStore';
+import { Notification, useNotification } from "~/stores/NotificationStore";
 
 const props = defineProps<{
-    notification: Notification
+    notification: Notification;
 }>();
 
 const count = ref(3);
@@ -21,13 +21,16 @@ function abortAutoDismiss() {
 }
 </script>
 <template>
-    <div class="alert shadow-lg w-96 animate-in fade-in zoom-in slide-in-from-top slide-in-from-right"
-        v-on:mouseover="abortAutoDismiss" :class="[notification.type]">
+    <div
+        class="alert shadow-lg w-96 animate-in fade-in zoom-in slide-in-from-top slide-in-from-right"
+        v-on:mouseover="abortAutoDismiss"
+        :class="[notification.type]"
+    >
         <div class="w-full flex flex-row justify-between">
             <span class="countdown font-mono" v-if="autoDismiss">
                 <span :style="`--value:${count};`"></span>
             </span>
-            <span class="font-mono" v-else>
+            <span class="font-mono whitespace-nowrap" v-else>
                 <span>--</span>
             </span>
 

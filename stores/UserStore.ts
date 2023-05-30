@@ -1,17 +1,18 @@
 import { Session } from "@supabase/supabase-js"
 import { defineStore } from "pinia"
+import { useNotification } from "./NotificationStore"
 
 interface Profile {
-    id: string
-    full_name: string | undefined
+    full_name: string | null
     has_avatar: boolean
-    updated_at: Date | undefined
+    id: string
+    updated_at: string
 }
 
 export const useUser = defineStore('user', {
     persist: true,
     state: () => ({
-        profile: null as Profile | null,
+        profile: null as Profile | null,        
         session: null as Session | null,
     }),
 
@@ -49,13 +50,24 @@ export const useUser = defineStore('user', {
                 return;
             }
         },
-            setFullName(full_name: string) {
-                if(this.profile == undefined) {
-                    console.log('O perfil não está preenchido.');
-                    return;
-                }
-                this.profile!.full_name = full_name;
+        async setFullName(full_name: string) {
+            if (this.profile == undefined) {
+                console.log('O perfil não está preenchido.');
+                return;
             }
+
+            const { count, error } = await useSupabaseClient().from('profiles').update({ full_name }, { count: 'exact' }).eq('id', this.profile?.id);
+
+            if (error != null) throw error;
+
+            if (count != 1) {
+                useNotification().warning('Que estranho... Tente entrar novamente');
+                return;
+            }
+
+            useNotification().success('Nome atualizado.');
+            this.profile!.full_name = full_name;
+        }
     },
 
     getters: {

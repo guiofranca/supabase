@@ -36,12 +36,12 @@ async function submit() {
         let validated = validator.parse(formValues.value);
         await medidorStore.add(validated);
         navigateTo('/medidores');
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof ZodError) {
             notificationStore.error('Erro de validação.')
             formErrors.value = error.flatten().fieldErrors;
         } else {
-            notificationStore.error('Houve um erro desconhecido.')
+            notificationStore.error(error.message ?? 'Houve um erro desconhecido.')
         }
     } finally {
         loading.value = false

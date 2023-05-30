@@ -1,42 +1,21 @@
-# Nuxt 3 Minimal Starter
+# Aprendendo Supabase
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Neste projeto estou aprendendo um pouco sobre o Supabase e Nuxt3.
 
 ## Setup
 
-Make sure to install the dependencies:
-
+Instalar as dependências e executar o projeto:
 ```bash
-# yarn
-yarn install
-
-# npm
 npm install
-
-# pnpm
-pnpm install
 ```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`
-
 ```bash
 npm run dev
 ```
 
-## Production
+## Supabase
 
-Build the application for production:
+Mais detalhes sobre o Supabase [aqui](https://github.com/guiofranca/supabase/tree/main/supabase).
 
-```bash
-npm run build
-```
+## Produção
 
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+O projeto pode ser acessado em [https://guiofranca.github.io/supabase/](https://guiofranca.github.io/supabase/). Existe uma esteira de CI/CD executada via Github Actions responsável pelo build e deploy da aplicação estática e atualização do projeto Supabase.

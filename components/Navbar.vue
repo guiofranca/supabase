@@ -35,12 +35,14 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                         <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('index') }" aria-current="page" to="/"
                             @click="blur">Home</NuxtLink>
                     </li>
-                    <li>
-                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('about') }" to="/about" @click="blur">About
+                    <li v-if="userStore.authenticated">
+                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('about') }" to="/about" @click="blur">
+                            About
                         </NuxtLink>
                     </li>
-                    <li>
-                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('medidores') }" to="/medidores" @click="blur">Medidores
+                    <li v-if="userStore.authenticated">
+                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('medidores') }" to="/medidores"
+                            @click="blur">Medidores
                         </NuxtLink>
                     </li>
                 </ul>
@@ -69,8 +71,8 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                 </label>
                 <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52">
                     <li>
-                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('profile') }" aria-current="page" to="/profile"
-                            @click="blur">Perfil</NuxtLink>
+                        <NuxtLink class="nav-link" :class="{ 'bg-base-100': isActive('profile') }" aria-current="page"
+                            to="/profile" @click="blur">Perfil</NuxtLink>
                     </li>
                     <li>
                         <div class="nav-link" to="/login" @click="signOut">Sair</div>

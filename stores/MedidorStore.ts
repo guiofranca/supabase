@@ -1,17 +1,24 @@
-import { defineStore } from "pinia";
-import { useNotification } from "./NotificationStore";
+import { defineStore } from 'pinia';
+import { useNotification } from './NotificationStore';
 
-interface Grandeza {
+export interface Grandeza {
     id: number,
     nome: string,
-    unidade: string,
+    unidade: string
 }
 
 export interface Medidor {
     id?: number,
     nome: string,
     descricao: string,
-    grandezas?: Grandeza | Grandeza[] | null
+    grandezas?: Grandeza[]
+}
+
+export interface MedidorEdit {
+    id?: number,
+    nome: string,
+    descricao: string,
+    grandezas: number[]
 }
 
 export const useMedidor = defineStore('medidor', {
@@ -23,30 +30,32 @@ export const useMedidor = defineStore('medidor', {
     actions: {
         async refreshAll() {
             const supabase = useSupabaseClient();
-            let medidores = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').order('id', { ascending: true });
-            this.medidores = medidores.data!;
+            const medidores = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').order('id', { ascending: true });
+            this.medidores = medidores.data as Medidor[];
         },
         async refreshSingle(id: number) {
             const supabase = useSupabaseClient();
-            let medidor = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').eq('id', id).single();
+            const medidor = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').eq('id', id).single();
             this.medidores = this.medidores.filter(m => m.id != medidor.data?.id);
-            this.medidores.push(medidor.data!);
+            this.medidores.push(medidor.data as Medidor);
+            this.medidores = this.medidores.sort((a, b) => a.id! - b.id!);
         },
         async add(medidor: Medidor) {
             const supabase = useSupabaseClient();
-            const { data } = await supabase.from('medidores').insert(medidor).select('id, nome, descricao, grandezas(id, nome, unidade)').single();
-            this.medidores.push(data!)
+            const { data, error } = await supabase.from('medidores').insert(medidor).select('id, nome, descricao').single();
+            if (error != null) throw error;
+            this.medidores.push(data);
             useNotification().success('Medidor criado!');
         },
         async remove(medidor: Medidor) {
             const supabase = useSupabaseClient();
-            const { count } = await supabase.from('medidores').delete().eq('id', medidor.id);
+            const { count } = await supabase.from('medidores').delete({ count: 'exact' }).eq('id', medidor.id);
             if (count == 0) {
                 useNotification().error('Houve um erro ao excluir');
                 return;
             }
             this.medidores = this.medidores.filter(m => m.id != medidor.id);
-            useNotification().success(`Medidor ${medidor.nome} excluído`)
+            useNotification().success(`Medidor ${medidor.nome} excluído`);
         },
         getById(id: number) {
             const medidor = this.medidores.find(m => m.id == id);
@@ -55,25 +64,35 @@ export const useMedidor = defineStore('medidor', {
             }
             return medidor;
         },
-        async edit(newValues: Medidor, medidor: Medidor) {
+        async edit(newValues: MedidorEdit, medidor: Medidor) {
             const m = this.medidores.filter(m => m.id != medidor.id);
-            if (medidor == undefined) {
+            if (m == undefined) {
                 throw showError({ statusCode: 404, message: 'Medidor não encontrado' });
             }
             const supabase = useSupabaseClient();
-            const { count } = await supabase.from('medidores').update(newValues).eq('id', medidor.id);
-            if (count == 0) {
+            const count = await supabase.from('medidores').update({ nome: newValues.nome, descricao: newValues.descricao }, { count: 'exact' }).eq('id', medidor.id);
+
+            if (count == null) {
                 useNotification().error('Houve um erro ao editar');
                 return;
             }
-            this.medidores = this.medidores.map(m => {
-                if (m.id == medidor.id) {
-                    m.nome = newValues.nome;
-                    m.descricao = newValues.descricao;
-                }
-                return m;
-            });
+
+            const grandezasMudaram = newValues.grandezas.sort().join() != medidor.grandezas?.map(g => g.id).join();
+            if (grandezasMudaram) {
+                await supabase.from('medidor_grandeza').delete().eq('medidor_id', medidor.id);
+                await supabase.from('medidor_grandeza').insert(newValues.grandezas.map(g => ({ grandeza_id: g, medidor_id: medidor.id! })))
+                await this.refreshSingle(medidor.id!);
+            } else {
+                this.medidores = this.medidores.map(m => {
+                    if (m.id == medidor.id) {
+                        m.nome = newValues.nome;
+                        m.descricao = newValues.descricao;
+                    }
+                    return m;
+                });
+            }
+
             useNotification().success('Medidor atualizado');
-        }
-    },
-})
+        },
+    }
+});

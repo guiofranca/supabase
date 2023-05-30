@@ -1,24 +1,45 @@
 <script setup lang="ts">
-import MedidorIndexCard from '~/components/Medidores/MedidorIndexCard.vue';
-import { useMedidor } from '~/stores/MedidorStore';
+import MedidorIndexCard from "~/components/Medidores/MedidorIndexCard.vue";
+import { useMedidor } from "~/stores/MedidorStore";
 
+const loading = ref(false);
 const medidorStore = useMedidor();
 
-const refresh = async () => await medidorStore.refreshAll();
+const refresh = async () => {
+    loading.value = true;
+    await medidorStore.refreshAll();
+    loading.value = false;
+};
 </script>
 
 <template>
     <div class="card bg-base-100 shadow">
         <div class="card-body">
             <div class="card-title">
-                <h2>
-                    Medidores
-                </h2>
-                <button type="button" @click="refresh" title="Atualizar"><IconRefresh /></button>
-                <NuxtLink to="medidores/criar" title="Criar medidor"><IconSquarePlus /></NuxtLink>
+                <h2>Medidores</h2>
+                <div v-if="loading">
+                    <button type="button" disabled class="btn btn-sm loading">
+                        Carregando
+                    </button>
+                </div>
+                <div v-else class="flex gap-2">
+                    <button type="button" @click="refresh" title="Atualizar">
+                        <IconRefresh />
+                    </button>
+                    <NuxtLink to="medidores/criar" title="Criar medidor"
+                        ><IconSquarePlus
+                    /></NuxtLink>
+                </div>
             </div>
-            <div class="flex flex-col gap-4">
-                <MedidorIndexCard v-for="medidor in medidorStore.medidores" :key="medidor.id" :medidor="medidor" />
+            <div
+                class="flex flex-col gap-4"
+                :class="{ 'animate-pulse': loading }"
+            >
+                <MedidorIndexCard
+                    v-for="medidor in medidorStore.medidores"
+                    :key="medidor.id"
+                    :medidor="medidor"
+                />
             </div>
         </div>
     </div>

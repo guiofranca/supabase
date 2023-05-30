@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NotificationHolder from '~/components/Notification/NotificationHolder.vue';
 import { useTheme } from '~/stores/ThemeStore';
 
 const themeStore = useTheme();
@@ -14,7 +15,7 @@ const route = useRoute();
             <div class="mx-2">
                 <Navbar />
             </div>
-            <Notification />
+            <NotificationHolder />
             <div class="container h-full min-w-full px-8 py-10">
                 <slot />
             </div>

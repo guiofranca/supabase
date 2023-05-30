@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Medidor, useMedidor } from "~/stores/MedidorStore";
+import { Grandeza, Medidor, useMedidor } from "~/stores/MedidorStore";
 const props = defineProps<{
     medidor: Medidor;
 }>();
@@ -33,9 +33,9 @@ async function remover() {
                         </NuxtLink>
                         <button
                             class="btn btn-error btn-square btn-sm"
-                            disabled
                             title="Excluir"
                             @click="remover"
+                            disabled
                         >
                             <IconCross />
                         </button>

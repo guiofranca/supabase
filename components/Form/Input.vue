@@ -13,9 +13,8 @@ let hasError = () => (props.errors != undefined) && props.errors.length > 0;
         <label v-if="label" class="label">
             <span class="label-text"> {{ label }}</span>
         </label>
-        <input class="input input-bordered" v-bind:class="{ 'border-error': hasError() }"
-            name="full_name" :value="modelValue" v-bind="$attrs"
-            @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
+        <input class="input input-bordered" v-bind:class="{ 'border-error': hasError() }" :value="modelValue"
+            v-bind="$attrs" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
         <span class="text-error" v-for="error in errors"> {{ error }} </span>
     </div>
 </template>

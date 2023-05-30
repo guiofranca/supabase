@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MedidorIndexCard from '~/components/Medidores/MedidorIndexCard.vue';
+import MedidorViewCard from '~/components/Medidores/MedidorViewCard.vue';
 import { useMedidor } from '~/stores/MedidorStore';
 
 const router = useRoute();
@@ -13,7 +13,7 @@ const medidor = medidorStore.getById(id);
         <div class="card-body">
             <h2 class="card-title">Medidor</h2>
             <div>
-                <MedidorIndexCard :medidor="medidor" />
+                <MedidorViewCard :medidor="medidor" />
             </div>
         </div>
     </div>
