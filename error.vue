@@ -10,7 +10,13 @@ defineProps<{
     error: MeuErro;
 }>();
 
+definePageMeta({
+    layout: "error-layout"
+})
+
 const layout = "error-layout";
+
+const themeStore = useTheme();
 
 const handleError = () => {
     clearError({ redirect: "/" });
@@ -18,12 +24,16 @@ const handleError = () => {
 </script>
 <template>
     <NuxtLayout :name="layout">
-        <div class="hero bg-base-300 py-10 mt-5 rounded-2xl shadow-2xl">
+        <div
+            class="hero bg-base-300 py-10 mt-5 rounded-2xl shadow-2xl"
+        >
             <div class="hero-content text-center">
                 <div class="">
                     <h1 class="text-5xl font-bold">{{ error.statusCode }}</h1>
                     <p class="py-6">{{ error.message }}</p>
-                    <button class="btn" @click="handleError">Voltar</button>
+                    <button class="btn btn-secondary" @click="handleError">
+                        Voltar
+                    </button>
                 </div>
             </div>
         </div>
