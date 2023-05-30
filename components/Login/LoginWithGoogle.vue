@@ -7,9 +7,6 @@ async function signInWithGoogle() {
     loading.value = true;
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: {
-            redirectTo: runtimeConfig.public.OauthRedirectUrl,
-        },
     });
     loading.value = false;
 }

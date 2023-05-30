@@ -4,13 +4,9 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             apiUrl: process.env.API_URL,
-            OauthRedirectUrl: process.env.OAUTH_REDIRECT_URL ?? '/',
             SupabaseUrl: process.env.SUPABASE_URL,
             SupabaseAnonKey: process.env.SUPABASE_KEY,
         }
-    },
-    app: {
-        baseURL: process.env.BASE_URL ?? '/',
     },
     modules: [
         '@pinia/nuxt',

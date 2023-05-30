@@ -23,7 +23,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            BASE_URL: ${{ secrets.BASE_URL }}
+            SITE_URL: ${{ secrets.SITE_URL }}
             SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
             SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
             OAUTH_REDIRECT_URL: ${{ secrets.OAUTH_REDIRECT_URL }}
