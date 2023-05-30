@@ -3,10 +3,13 @@ export default defineNuxtConfig({
     css: ['~/assets/styles/main.scss'],
     runtimeConfig: {
         public: {
-            apiUrl: process.env.API_URL,
             SupabaseUrl: process.env.SUPABASE_URL,
             SupabaseAnonKey: process.env.SUPABASE_KEY,
         }
+    },
+    app: {
+        //Precisa para funcionamento correto do Github Pages.
+        baseURL: process.env.BASE_URL
     },
     modules: [
         '@pinia/nuxt',
