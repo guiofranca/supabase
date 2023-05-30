@@ -3,6 +3,7 @@ export default defineNuxtConfig({
     css: ['~/assets/styles/main.scss'],
     runtimeConfig: {
         public: {
+            SiteUrl: process.env.SITE_URL,
             SupabaseUrl: process.env.SUPABASE_URL,
             SupabaseAnonKey: process.env.SUPABASE_KEY,
         }
