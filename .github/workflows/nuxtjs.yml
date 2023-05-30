@@ -89,6 +89,7 @@ jobs:
               uses: actions/deploy-pages@v2
 
     migrate-production-database:
+        needs: deploy
         runs-on: ubuntu-latest
 
         env:
@@ -99,6 +100,9 @@ jobs:
         steps:
           - name: Checkout
             uses: actions/checkout@v3
+          - name: Copia config.toml
+            run: |
+                cp ${{ github.workspace }}/supabase/config.toml.example ${{ github.workspace }}/supabase/config.toml
           - name: Setup Supabase CLI
             uses: supabase/setup-cli@v1
             with:
