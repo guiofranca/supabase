@@ -26,6 +26,26 @@ export interface Database {
           unidade?: string
         }
       }
+      medidas: {
+        Row: {
+          grandeza_id: number
+          medidor_id: number
+          timestamp: string
+          valor: number
+        }
+        Insert: {
+          grandeza_id: number
+          medidor_id: number
+          timestamp?: string
+          valor: number
+        }
+        Update: {
+          grandeza_id?: number
+          medidor_id?: number
+          timestamp?: string
+          valor?: number
+        }
+      }
       medidor_grandeza: {
         Row: {
           grandeza_id: number
