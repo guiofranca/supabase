@@ -3,4 +3,3 @@
 .temp
 config.toml
 migrations_old
-seed.sql
