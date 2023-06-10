@@ -4,7 +4,7 @@
 
 </p>
 
-![Build & Deploy](https://github.com/giofranca/supabase/actions/workflows/nuxtjs.yml/badge.svg)
+![Build & Deploy](https://github.com/guiofranca/supabase/actions/workflows/nuxtjs.yml/badge.svg)
 
 # Aprendendo Supabase
 
