@@ -51,7 +51,7 @@ const toggleSelection = (id: number) => {
             </label>
             <div class="flex gap-1 flex-wrap">
                 <div
-                    class="badge hover:badge-error hover:cursor-pointer"
+                    class="badge badge-neutral hover:badge-error hover:cursor-pointer"
                     title="Remover"
                     v-for="option in options.filter((o) => isSelected(o.id))"
                     :key="option.id"

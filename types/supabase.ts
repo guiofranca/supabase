@@ -26,17 +26,37 @@ export interface Database {
           unidade?: string
         }
       }
+      medidas: {
+        Row: {
+          instante: string
+          medidor_grandeza_id: number
+          valor: number
+        }
+        Insert: {
+          instante?: string
+          medidor_grandeza_id: number
+          valor: number
+        }
+        Update: {
+          instante?: string
+          medidor_grandeza_id?: number
+          valor?: number
+        }
+      }
       medidor_grandeza: {
         Row: {
           grandeza_id: number
+          id: number
           medidor_id: number
         }
         Insert: {
           grandeza_id: number
+          id?: number
           medidor_id: number
         }
         Update: {
           grandeza_id?: number
+          id?: number
           medidor_id?: number
         }
       }
@@ -82,7 +102,20 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      buscar_medidas: {
+        Args: {
+          medidor: number
+          grandeza: number
+          intervalo: unknown
+          inicio: string
+          fim: string
+          timezone?: string
+        }
+        Returns: {
+          x: string
+          y: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { z, ZodError } from 'zod';
-import Input from '../Form/Input.vue';
-import { useNotification } from '~/stores/NotificationStore';
-import { useMedidor } from '~/stores/MedidorStore';
+import { z, ZodError } from "zod";
+import Input from "../Form/Input.vue";
+import { useNotification } from "~/stores/NotificationStore";
+import { useMedidor } from "~/stores/MedidorStore";
 
 const notificationStore = useNotification();
 const medidorStore = useMedidor();
+const router = useRouter();
 const loading = ref(true);
-const medidorInicial = { nome: '', descricao: '' };
+const medidorInicial = { nome: "", descricao: "" };
 const erroInicial = { nome: [] as string[], descricao: [] as string[] };
 let formValues = ref<Form>(medidorInicial);
 let formErrors = ref<FormErrors>(erroInicial);
@@ -17,14 +18,14 @@ const validator = z.object({
 });
 
 interface Form {
-    nome: string | undefined,
-    descricao: string | undefined
+    nome: string | undefined;
+    descricao: string | undefined;
 }
 
 interface FormErrors {
-    [key: string]: string[] | undefined
-    [key: number]: string[] | undefined
-    [key: symbol]: string[] | undefined
+    [key: string]: string[] | undefined;
+    [key: number]: string[] | undefined;
+    [key: symbol]: string[] | undefined;
 }
 
 loading.value = false;
@@ -35,26 +36,52 @@ async function submit() {
         loading.value = true;
         let validated = validator.parse(formValues.value);
         await medidorStore.add(validated);
-        navigateTo('/medidores');
+        navigateTo("/medidores");
     } catch (error: any) {
         if (error instanceof ZodError) {
-            notificationStore.error('Erro de validação.')
+            notificationStore.error("Erro de validação.");
             formErrors.value = error.flatten().fieldErrors;
         } else {
-            notificationStore.error(error.message ?? 'Houve um erro desconhecido.')
+            notificationStore.error(
+                error.message ?? "Houve um erro desconhecido.",
+            );
         }
     } finally {
-        loading.value = false
+        loading.value = false;
     }
 }
 </script>
 
 <template>
     <form class="form-widget flex flex-col gap-4" @submit.prevent="submit">
-        <Input label="Nome" type="text" v-model="formValues.nome" :errors="formErrors.nome" />
-        <Input label="Descrição" type="text" v-model="formValues.descricao" :errors="formErrors.descricao" />
-        <button type="submit" class="btn btn-block" :class="{loading: loading}" :disabled="loading">
-            Criar
-        </button>
+        <Input
+            label="Nome"
+            type="text"
+            v-model="formValues.nome"
+            :errors="formErrors.nome"
+        />
+        <Input
+            label="Descrição"
+            type="text"
+            v-model="formValues.descricao"
+            :errors="formErrors.descricao"
+        />
+        <div class="flex gap-2">
+            <button
+                type="button"
+                class="btn btn-neutral flex-grow"
+                @click="router.go(-1)"
+            >
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                class="btn btn-neutral flex-grow"
+                :class="{ loading: loading }"
+                :disabled="loading"
+            >
+                Criar
+            </button>
+        </div>
     </form>
 </template>

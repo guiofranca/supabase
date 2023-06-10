@@ -16,7 +16,7 @@ async function signInWithGoogle() {
 </script>
 <template>
     <button
-        class="btn btn-circle flex-grow"
+        class="btn btn-neutral btn-circle flex-grow"
         type="button"
         @click="signInWithGoogle"
         title="Login com google"

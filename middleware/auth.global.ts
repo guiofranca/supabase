@@ -7,13 +7,12 @@ const anonymousRoutes = [
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     const user = useUser();
-    
     if (to.name == undefined)
         return abortNavigation();
     if (isAnAnonymousRoute(to.name!.toString()))
         return;
     if (user.isNotLoggedIn)
-        return navigateTo('login');
+        return navigateTo('/login');
 })
 
 function isAnAnonymousRoute(name: string): boolean {

@@ -26,16 +26,14 @@ function abortAutoDismiss() {
         v-on:mouseover="abortAutoDismiss"
         :class="[notification.type]"
     >
-        <div class="w-full flex flex-row justify-between">
-            <span class="countdown font-mono" v-if="autoDismiss">
-                <span :style="`--value:${count};`"></span>
-            </span>
-            <span class="font-mono whitespace-nowrap" v-else>
-                <span>--</span>
-            </span>
+        <span class="countdown font-mono" v-if="autoDismiss">
+            <span :style="`--value:${count};`"></span>
+        </span>
+        <span class="font-mono whitespace-nowrap" v-else>
+            <span>--</span>
+        </span>
 
-            <span> {{ notification.message }}</span>
-            <IconCross @click="notificationStore.dismiss(notification.id)" />
-        </div>
+        <span class="whitespace-pre-wrap"> {{ notification.message }}</span>
+        <IconCross @click="notificationStore.dismiss(notification.id)" />
     </div>
 </template>

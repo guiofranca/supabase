@@ -5,11 +5,12 @@ import { useMedidor } from "~/stores/MedidorStore";
 const loading = ref(false);
 const medidorStore = useMedidor();
 
-const refresh = async () => {
+const refresh = async (force = false) => {
     loading.value = true;
-    await medidorStore.refreshAll();
-    loading.value = false;
+    await medidorStore.refreshAll(force).finally(() => (loading.value = false));
 };
+
+refresh();
 </script>
 
 <template>
@@ -23,7 +24,7 @@ const refresh = async () => {
                     </button>
                 </div>
                 <div v-else class="flex gap-2">
-                    <button type="button" @click="refresh" title="Atualizar">
+                    <button type="button" @click="refresh(true)" title="Atualizar">
                         <IconRefresh />
                     </button>
                     <NuxtLink to="medidores/criar" title="Criar medidor"
