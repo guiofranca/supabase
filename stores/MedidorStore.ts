@@ -24,11 +24,15 @@ export interface MedidorEdit {
 export const useMedidor = defineStore('medidor', {
     persist: true,
     state: () => ({
-        medidores: [] as Medidor[]
+        medidores: [] as Medidor[],
+        lastUpdate: new Date()
     }),
 
     actions: {
-        async refreshAll() {
+        async refreshAll(force = false) {
+            if (this.checkExpired()) force = true;
+            const ehVazioOuForcado = this.medidores.length == 0 || force;
+            if (!ehVazioOuForcado) return;
             const supabase = useSupabaseClient();
             const medidores = await supabase.from('medidores').select('id, nome, descricao, grandezas(id, nome, unidade)').order('id', { ascending: true });
             this.medidores = medidores.data as Medidor[];
@@ -77,10 +81,21 @@ export const useMedidor = defineStore('medidor', {
                 return;
             }
 
-            const grandezasMudaram = newValues.grandezas.sort().join() != medidor.grandezas?.map(g => g.id).join();
+            const grandezasMudaram = newValues.grandezas.sort().join(',') != medidor.grandezas?.map(g => g.id).join(',');
             if (grandezasMudaram) {
-                await supabase.from('medidor_grandeza').delete().eq('medidor_id', medidor.id);
-                await supabase.from('medidor_grandeza').insert(newValues.grandezas.map(g => ({ grandeza_id: g, medidor_id: medidor.id! })))
+                const grandezasOriginais = medidor.grandezas?.map(g => g.id) ?? [];
+                const grandezasAtualizadas = newValues.grandezas;
+                const grandezasExcluir = grandezasOriginais.filter(id => !grandezasAtualizadas.includes(id)) ?? [];
+                const grandezasIncluir = grandezasAtualizadas.filter(id => !grandezasOriginais.includes(id)) ?? [];
+
+                if(grandezasExcluir.length > 0) {
+                    await supabase.from('medidor_grandeza').delete().eq('medidor_id', medidor.id).in('grandeza_id', grandezasExcluir);
+                }
+
+                if(grandezasIncluir.length > 0) {
+                    await supabase.from('medidor_grandeza').insert(grandezasIncluir.map(g => ({ grandeza_id: g, medidor_id: medidor.id! })))
+                }
+
                 await this.refreshSingle(medidor.id!);
             } else {
                 this.medidores = this.medidores.map(m => {
@@ -94,5 +109,13 @@ export const useMedidor = defineStore('medidor', {
 
             useNotification().success('Medidor atualizado');
         },
+        checkExpired() {
+            const expired = ((new Date()).getTime() - (new Date(this.lastUpdate)).getTime()) > 180 * 1000;
+            if (expired) {
+                this.lastUpdate = new Date();
+                return true;
+            }
+            return false;
+        }
     }
 });

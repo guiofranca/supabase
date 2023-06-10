@@ -20,10 +20,13 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.22.0",
-    "daisyui": "^2.51.6",
+    "apexcharts": "^3.40.0",
+    "daisyui": "^3.0.3",
+    "dayjs": "^1.11.8",
     "pinia": "^2.0.36",
     "pinia-plugin-persistedstate": "^3.1.0",
     "sass": "^1.62.1",
+    "vue3-apexcharts": "^1.4.1",
     "zod": "^3.21.4"
   }
 }

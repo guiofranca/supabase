@@ -17,28 +17,28 @@ export const useNotification = defineStore('notification', {
             this.notifications.push({
                 id: Math.floor(Math.random() * 100000).toString(),
                 message: message,
-                type: 'alert-info'
+                type: 'border-info'
             });
         },
         success(message: string) {
             this.notifications.push({
                 id: Math.floor(Math.random() * 100000).toString(),
                 message: message,
-                type: 'alert-success'
+                type: 'border-success'
             });
         },
         warning(message: string) {
             this.notifications.push({
                 id: Math.floor(Math.random() * 100000).toString(),
                 message: message,
-                type: 'alert-warning'
+                type: 'border-warning'
             });
         },
         error(message: string) {
             this.notifications.push({
                 id: Math.floor(Math.random() * 100000).toString(),
                 message: message,
-                type: 'alert-error'
+                type: 'border-error'
             });
         },
         dismiss(id: string) {

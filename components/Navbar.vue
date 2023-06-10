@@ -41,7 +41,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                 </label>
                 <ul
                     tabindex="0"
-                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52"
+                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52 z-10"
                 >
                     <li>
                         <NuxtLink
@@ -56,11 +56,11 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                     <li v-if="userStore.authenticated">
                         <NuxtLink
                             class="nav-link"
-                            :class="{ 'bg-base-100': isActive('realtime') }"
-                            to="/realtime"
+                            :class="{ 'bg-base-100': isActive('graficos') }"
+                            to="/graficos"
                             @click="blur"
                         >
-                            Realtime
+                            Gráficos
                         </NuxtLink>
                     </li>
                     <li v-if="userStore.authenticated">
@@ -110,7 +110,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                 </label>
                 <ul
                     tabindex="0"
-                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52"
+                    class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52 z-10"
                 >
                     <li>
                         <NuxtLink
@@ -129,7 +129,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                     </li>
                 </ul>
             </div>
-            <NuxtLink v-else class="btn rounded-full" to="/login"
+            <NuxtLink v-else class="btn btn-neutral rounded-full" to="/login"
                 >Entrar</NuxtLink
             >
         </div>

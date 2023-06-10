@@ -15,7 +15,7 @@ const route = useRoute();
                 <Navbar />
             </div>
             <NotificationHolder />
-            <div class="container h-full min-w-full px-8 py-10">
+            <div class="container h-full min-w-full px-8 pt-10">
                 <slot />
             </div>
         </div>

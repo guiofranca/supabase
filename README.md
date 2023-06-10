@@ -1,3 +1,11 @@
+<p align="center">
+
+<img src="https://raw.githubusercontent.com/guiofranca/supabase/main/public/favicon.ico" alt="Aprendendo Supabase Ícone" />
+
+</p>
+
+![Build & Deploy](https://github.com/giofranca/supabase/actions/workflows/nuxtjs.yml/badge.svg)
+
 # Aprendendo Supabase
 
 Neste projeto estou aprendendo um pouco sobre o Supabase e Nuxt3.

@@ -19,7 +19,6 @@ export const useUser = defineStore('user', {
     actions: {
         async signIn() {
             if (this.session == null) {
-                console.log("Sessão vazia");
                 return;
             }
             const supabase = useSupabaseClient();
@@ -52,7 +51,6 @@ export const useUser = defineStore('user', {
         },
         async setFullName(full_name: string) {
             if (this.profile == undefined) {
-                console.log('O perfil não está preenchido.');
                 return;
             }
 

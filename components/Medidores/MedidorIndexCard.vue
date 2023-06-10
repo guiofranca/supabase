@@ -48,7 +48,7 @@ async function remover() {
             <div class="flex flex-wrap gap-2 items-center">
                 <span>Grandezas:</span>
                 <div
-                    class="badge"
+                    class="badge badge-neutral"
                     v-for="grandeza in medidor.grandezas"
                     :key="grandeza.id"
                 >

@@ -5,6 +5,7 @@ import { useNotification } from "~/stores/NotificationStore";
 import { useUser } from "~/stores/UserStore";
 
 const user = useUser();
+const router = useRouter();
 const notificationStore = useNotification();
 
 interface Form {
@@ -54,13 +55,22 @@ async function submit() {
             v-model="formValues.full_name"
             :errors="formErrors.full_name"
         />
-        <button
-            type="submit"
-            class="btn btn-block"
-            :class="{ loading: loading }"
-            :disabled="loading"
-        >
-            Salvar
-        </button>
+        <div class="flex gap-2">
+            <button
+                type="button"
+                class="btn btn-neutral flex-grow"
+                @click="router.go(-1)"
+            >
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                class="btn btn-neutral flex-grow"
+                :class="{ loading: loading }"
+                :disabled="loading"
+            >
+                Salvar
+            </button>
+        </div>
     </form>
 </template>

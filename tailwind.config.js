@@ -9,9 +9,9 @@ module.exports = {
     },
     safelist: [
         'active',
-        'alert-info',
-        'alert-success',
-        'alert-warning',
-        'alert-error',
+        'border-info',
+        'border-success',
+        'border-warning',
+        'border-error',
     ]
 };

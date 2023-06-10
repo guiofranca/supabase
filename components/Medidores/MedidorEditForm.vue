@@ -19,6 +19,7 @@ interface Form {
 const notificationStore = useNotification();
 const medidorStore = useMedidor();
 const grandezaStore = useGrandeza();
+const router = useRouter();
 const loading = ref(true);
 await grandezaStore.refreshAll();
 const options = grandezaStore.grandezas.map((grandeza) => ({
@@ -91,14 +92,22 @@ const value = ref([]);
             :errors="formErrors.grandezas"
             :options="options"
         />
-
-        <button
-            type="submit"
-            class="btn btn-block"
-            :class="{ loading: loading }"
-            :disabled="loading"
-        >
-            Salvar
-        </button>
+        <div class="flex gap-2">
+            <button
+                type="button"
+                class="btn btn-neutral flex-grow"
+                @click="router.go(-1)"
+            >
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                class="btn btn-neutral flex-grow"
+                :disabled="loading"
+            >
+                <span v-if="loading" class="loading loading-spiner"></span>
+                Salvar
+            </button>
+        </div>
     </form>
 </template>
