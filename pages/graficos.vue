@@ -20,6 +20,7 @@ const themeStore = useTheme();
 
 const loading = ref(false);
 const expandirGrandezas = ref(false);
+const expandirFiltro = ref(true);
 
 const chartOptions = ref(useApexChartOptions());
 
@@ -78,6 +79,7 @@ function submit() {
 
     loading.value = true;
     expandirGrandezas.value = false;
+    expandirFiltro.value = false;
     consultas.value.dados = [];
     formData.value.medidas.forEach((m) => {
         BuscarMedidas({
@@ -116,71 +118,86 @@ function grandezaEstaSelecionada(medidor: number, grandeza: number): boolean {
     <div class="flex flex-col gap-2">
         <div class="card bg-base-100">
             <div class="card-body">
-                <div class="card-title">Filtro</div>
-                <form @submit.prevent="submit">
-                    <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
-                        <Input
-                            :errors="[]"
-                            label="Início"
-                            type="date"
-                            v-model="formData.inicio"
-                            required
-                        />
-                        <Input
-                            :errors="[]"
-                            label="Fim"
-                            type="date"
-                            v-model="formData.fim"
-                            required
-                        />
-                        <div class="form-control w-full">
-                            <label class="label">
-                                <span class="label-text">Intervalo</span>
-                            </label>
-                            <select
-                                class="select select-bordered w-full"
-                                v-model="formData.intervalo"
-                            >
-                                <option
-                                    v-for="option in intervaloOptions"
-                                    :key="option.value"
-                                    :value="option.value"
-                                >
-                                    {{ option.text }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-control md:col-span-3">
-                            <div class="collapse collapse-arrow bg-base-200">
-                                <input
-                                    type="checkbox"
-                                    class="peer"
-                                    v-model="expandirGrandezas"
+                <div class="collapse collapse-arrow">
+                    <input
+                        type="checkbox"
+                        class="peer"
+                        v-model="expandirFiltro"
+                    />
+                    <div class="collapse-title text-xl font-semibold">Filtro</div>
+                    <div class="collapse-content p-0">
+                        <form @submit.prevent="submit">
+                            <div class="grid sm:grid-cols-3 grid-cols-1 gap-2">
+                                <Input
+                                    :errors="[]"
+                                    label="Início"
+                                    type="date"
+                                    v-model="formData.inicio"
+                                    required
                                 />
-                                <div
-                                    class="flex justify-between collapse-title bg-base-200 [input:checked~&]:bg-base-100"
-                                >
-                                    <span class=""
-                                        >Selecione as Grandezas ({{
-                                            formData.medidas.length
-                                        }}
-                                        selecionada(s)):</span
+                                <Input
+                                    :errors="[]"
+                                    label="Fim"
+                                    type="date"
+                                    v-model="formData.fim"
+                                    required
+                                />
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text"
+                                            >Intervalo</span
+                                        >
+                                    </label>
+                                    <select
+                                        class="select select-bordered w-full"
+                                        v-model="formData.intervalo"
                                     >
+                                        <option
+                                            v-for="option in intervaloOptions"
+                                            :key="option.value"
+                                            :value="option.value"
+                                        >
+                                            {{ option.text }}
+                                        </option>
+                                    </select>
                                 </div>
-                                <div class="collapse-content bg-base-100">
-                                    <div class="grid md:grid-cols-6 gap-2">
-                                        <template
-                                            v-for="medidor in medidorStore.medidores"
-                                            :key="medidor.id"
+                                <div class="form-control sm:col-span-3">
+                                    <div
+                                        class="collapse collapse-arrow bg-base-200"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="peer"
+                                            v-model="expandirGrandezas"
+                                        />
+                                        <div
+                                            class="flex justify-between collapse-title bg-base-200 [input:checked~&]:bg-base-100"
+                                        >
+                                            <span class=""
+                                                >Selecione as Grandezas ({{
+                                                    formData.medidas.length
+                                                }}
+                                                selecionada(s)):</span
+                                            >
+                                        </div>
+                                        <div
+                                            class="collapse-content bg-base-100"
                                         >
                                             <div
-                                                v-for="grandeza in medidor.grandezas"
-                                                :key="grandeza.id"
+                                                class="grid sm:grid-cols-6 gap-2"
                                             >
-                                                <div
-                                                    type="button"
-                                                    class="btn"
-                                                    :class="{
+                                                <template
+                                                    v-for="medidor in medidorStore.medidores"
+                                                    :key="medidor.id"
+                                                >
+                                                    <div
+                                                        v-for="grandeza in medidor.grandezas"
+                                                        :key="grandeza.id"
+                                                    >
+                                                        <div
+                                                            type="button"
+                                                            class="btn btn-block"
+                                                            :class="{
                                                 'btn-primary':
                                                     grandezaEstaSelecionada(
                                                         medidor.id!,
@@ -192,42 +209,45 @@ function grandezaEstaSelecionada(medidor: number, grandeza: number): boolean {
                                                         grandeza.id,
                                                     ),
                                             }"
-                                                    @click="
-                                                        toggleGrandeza(
-                                                            medidor.id!,
-                                                            grandeza.id,
-                                                        )
-                                                    "
-                                                >
-                                                    {{
-                                                        `${medidor.nome} ${grandeza.nome}`
-                                                    }}
-                                                </div>
+                                                            @click="
+                                                                toggleGrandeza(
+                                                                    medidor.id!,
+                                                                    grandeza.id,
+                                                                )
+                                                            "
+                                                        >
+                                                            {{
+                                                                `${medidor.nome} ${grandeza.nome}`
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </template>
                                             </div>
-                                        </template>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="sm:col-span-3">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-neutral btn-block"
+                                        :disabled="
+                                            formData.medidas.length == 0 ||
+                                            loading
+                                        "
+                                    >
+                                        <span
+                                            :class="{
+                                                loading: loading,
+                                                'loading-dots': loading,
+                                            }"
+                                        ></span>
+                                        Gerar Gráfico
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="md:col-span-3">
-                            <button
-                                type="submit"
-                                class="btn btn-neutral btn-block"
-                                :disabled="
-                                    formData.medidas.length == 0 || loading
-                                "
-                            >
-                                <span
-                                    :class="{
-                                        loading: loading,
-                                        'loading-dots': loading,
-                                    }"
-                                ></span>
-                                Gerar Gráfico
-                            </button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="card bg-base-100">

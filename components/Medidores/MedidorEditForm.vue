@@ -85,9 +85,15 @@ const value = ref([]);
             v-model="formValues.descricao"
             :errors="formErrors.descricao"
         />
-
+        <div class="alert border-info py-2">
+            <IconInfo class="text-info" />
+            <span>
+                Na demonstração não é possível alterar as grandezas para não
+                bagunçar as medidas!
+            </span>
+        </div>
         <MultipleSelect
-            label="Grandezas"
+            label="Grandezas:"
             v-model="formValues.grandezas"
             :errors="formErrors.grandezas"
             :options="options"

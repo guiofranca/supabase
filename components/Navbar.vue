@@ -75,10 +75,10 @@ supabase.auth.onAuthStateChange(async (event, session) => {
                 </ul>
             </div>
         </div>
-        <div class="navbar-center">
-            <NuxtLink class="btn btn-ghost normal-case text-xl" to="/"
-                >Supabase</NuxtLink
-            >
+        <div class="navbar-center hidden sm:block">
+            <NuxtLink class="btn btn-ghost normal-case text-xl" to="/">
+                Supabase
+            </NuxtLink>
         </div>
         <div class="navbar-end">
             <a

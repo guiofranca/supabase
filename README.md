@@ -16,6 +16,17 @@ Instalar as dependências e executar o projeto:
 ```bash
 npm install
 ```
+
+Iniciar o Supabase
+```bash
+npx supabase start
+```
+
+Subir as migrações em desenvolvimento local
+```bash
+npx supabase db reset
+```
+
 ```bash
 npm run dev
 ```
@@ -24,6 +35,6 @@ npm run dev
 
 Mais detalhes sobre o Supabase [aqui](https://github.com/guiofranca/supabase/tree/main/supabase).
 
-## Produção
+## Demo
 
 O projeto pode ser acessado em [https://guiofranca.github.io/supabase/](https://guiofranca.github.io/supabase/). Existe uma esteira de CI/CD executada via Github Actions responsável pelo build e deploy da aplicação estática e atualização do projeto Supabase.

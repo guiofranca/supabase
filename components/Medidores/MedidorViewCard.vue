@@ -19,13 +19,6 @@ async function remover() {
                     <div class="flex gap-2">
                         <NuxtLink
                             class="btn btn-primary btn-square btn-sm"
-                            title="Visualizar"
-                            :to="`/medidores/${medidor.id}`"
-                        >
-                            <IconEye />
-                        </NuxtLink>
-                        <NuxtLink
-                            class="btn btn-primary btn-square btn-sm"
                             title="Editar"
                             :to="`/medidores/${medidor.id}/editar`"
                         >

@@ -86,15 +86,6 @@ const submit = () => {
     tabAtiva.value = 2;
 };
 
-function fodase() {
-    const ultimo = consultas.value.dados[0].dados?.length! - 1;
-    const ultimaData = consultas.value.dados[0].dados![ultimo].x;
-    consultas.value.dados[0].dados?.push({
-        x: dayjs(ultimaData).add(1, "day").format("YYYY-MM-DD"),
-        y: Math.random() * 300,
-    });
-}
-
 function toggleGrandeza(id: number) {
     if (grandezaEstaSelecionada(id))
         formData.value.grandezas = formData.value.grandezas.filter(
@@ -113,7 +104,6 @@ function grandezaEstaSelecionada(id: number): boolean {
             <div
                 type="button"
                 class="tab tab-lifted cursor-default"
-                @click="fodase"
             ></div>
             <button
                 type="button"
@@ -148,7 +138,7 @@ function grandezaEstaSelecionada(id: number): boolean {
                     Parâmetros de consulta
                 </div>
                 <form @submit.prevent="submit">
-                    <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
+                    <div class="grid sm:grid-cols-3 grid-cols-1 gap-2">
                         <Input
                             :errors="[]"
                             label="Início"
@@ -181,16 +171,16 @@ function grandezaEstaSelecionada(id: number): boolean {
                                 </option>
                             </select>
                         </div>
-                        <div class="form-control md:col-span-3">
+                        <div class="form-control sm:col-span-3">
                             <label class="label">Grandezas</label>
-                            <div class="flex gap-2">
+                            <div class="grid sm:grid-cols-6 gap-2">
                                 <div
                                     v-for="grandeza in medidor.grandezas"
                                     :key="grandeza.id"
                                 >
                                     <div
                                         type="button"
-                                        class="btn"
+                                        class="btn btn-block"
                                         :class="{
                                             'btn-primary':
                                                 grandezaEstaSelecionada(
@@ -208,7 +198,7 @@ function grandezaEstaSelecionada(id: number): boolean {
                                 </div>
                             </div>
                         </div>
-                        <div class="md:col-span-3">
+                        <div class="sm:col-span-3">
                             <button
                                 type="submit"
                                 class="btn btn-neutral btn-block"
