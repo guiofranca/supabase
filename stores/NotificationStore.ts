@@ -44,5 +44,8 @@ export const useNotification = defineStore('notification', {
         dismiss(id: string) {
             this.notifications = this.notifications.filter((notification) => notification.id != id);
         }
+    },
+    getters: {
+        possuiNotificacoes: (state) => state.notifications.length > 0,
     }
 })

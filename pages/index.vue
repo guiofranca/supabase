@@ -4,14 +4,14 @@ import { useNotification } from "~/stores/NotificationStore";
 const notificationStore = useNotification();
 </script>
 <template>
-    <div class="p-4 prose min-w-full min-h-full">
+    <div class="prose prose-sm min-w-full min-h-full">
         <div class="card bg-base-100 min-h-full">
             <div class="card-body">
                 <h1>Sobre esse projeto</h1>
                 <div class="text-justify">
                     <p>
                         Olá! Esse projeto serve pra exercitar algumas coisas:
-                        principalmente Front-end com
+                        Front-end com
                         <span class="font-bold">Nuxt</span>,
                         <span class="font-bold">Tailwind</span> e
                         <span class="font-bold">DaisyUI</span>, Back-End as a

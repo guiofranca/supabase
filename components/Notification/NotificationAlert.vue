@@ -22,7 +22,7 @@ function abortAutoDismiss() {
 </script>
 <template>
     <div
-        class="alert shadow-lg w-96 animate-in fade-in zoom-in slide-in-from-top slide-in-from-right"
+        class="alert flex justify-between shadow-lg animate-in fade-in zoom-in slide-in-from-top slide-in-from-right"
         v-on:mouseover="abortAutoDismiss"
         :class="[notification.type]"
     >
